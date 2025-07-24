@@ -1,9 +1,8 @@
-// backend/api/index.js
-
+// backend/api/user.js
 import express from "express";
-import serverless from "serverless-http";
 import cors from "cors";
 import dotenv from "dotenv";
+import serverless from "serverless-http";
 import { connectDB } from "../db/connection.js";
 import userRoute from "../routes/userRoute.js";
 
@@ -15,12 +14,14 @@ app.use(cors({
   origin: process.env.FRONTEND_URL,
   credentials: true
 }));
-
 app.use(express.json());
 
-connectDB(); // Connect MongoDB
+connectDB();
 
-app.use('/api/v1/user', userRoute);
+app.get("/", (req, res) => {
+  res.send("API is working!");
+});
 
-// Export serverless handler
-export default serverless(app);
+app.use('/', userRoute); // no need for '/api/v1/user'
+
+export const handler = serverless(app);
