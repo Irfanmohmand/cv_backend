@@ -15,6 +15,11 @@ app.use(cors({
 }));
 app.use(express.json());
 
+
+app.get("/", (req, res) => {
+  res.send("Hello vercel")
+})
+
 connectDB();
 app.use('/api/v1/user', userRoute);
 
